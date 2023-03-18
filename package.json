@@ -1,0 +1,15 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fb-chat-api": "ntkhang03/fb-chat-api",
+    "openai": "^3.2.1"
+  },
+  "scripts": {
+    "start": "node index"
+  }
+}
