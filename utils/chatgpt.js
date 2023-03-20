@@ -29,6 +29,7 @@ module.exports = async (message) => {
     const completion_text = completion.data.choices[0].message.content;
     return { isError: "false", message: completion_text };
   } catch (e) {
+    console.log(e.response.data)
     return { isError: "true", message: "Error, salik yawa." };
   }
 };

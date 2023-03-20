@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const chatgpt = require("./utils/chatgpt");
 const login = require("fb-chat-api");
+require("dotenv").config();
 
 login({ appState: JSON.parse(process.env.FB_STATE) }, (err, api) => {
   if (err) return console.error(err);
@@ -17,13 +18,17 @@ login({ appState: JSON.parse(process.env.FB_STATE) }, (err, api) => {
           
         if (body.startsWith("@Xyst Lee") && isMentioned) {
           body = body.replace("@Xyst Lee", "").trim();
+          const end = api.sendTypingIndicator(message.threadID);
           const reply = await chatgpt(body);
+          end();
           api.sendMessage({ body: reply.message }, message.threadID);
         }
         
         if (message.senderID === "100030415156660" && !message.isGroup) {
+          const end = api.sendTypingIndicator(message.threadID);
           const reply = await chatgpt(body);
-          api.sendMessage({ body: reply.message + "local"}, message.threadID);
+          end();
+          api.sendMessage({ body: reply.message}, message.threadID);
         }
       }
     });
