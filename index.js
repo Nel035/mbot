@@ -8,8 +8,8 @@ login({ appState: JSON.parse(process.env.FB_STATE) }, (err, api) => {
 
   try {
     api.listenMqtt(async (err, message) => {
-      if (err) throw err
-      
+      if (err) throw err;
+
       if (message.type === "message") {
         let body = message.body;
         const isMentioned =
@@ -17,12 +17,12 @@ login({ appState: JSON.parse(process.env.FB_STATE) }, (err, api) => {
           
         if (body.startsWith("@Xyst Lee") && isMentioned) {
           body = body.replace("@Xyst Lee", "").trim();
-          const reply = await chatgpt(api, message, body);
+          const reply = await chatgpt(body);
           api.sendMessage({ body: reply.message }, message.threadID, message.messageID);
         }
         
         if (message.senderID === "100030415156660" && !message.isGroup) {
-          const reply = await chatgpt(api, message, body);
+          const reply = await chatgpt(body);
           api.sendMessage({ body: reply.message}, message.threadID, message.messageID);
         }
       }
